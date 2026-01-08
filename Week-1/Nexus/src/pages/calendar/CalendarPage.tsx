@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+import { MeetingRequests } from './MeetingRequests';
 import { Card, CardHeader, CardBody } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 
@@ -43,37 +44,43 @@ export const CalendarPage: React.FC = () => {
         start: selectInfo.startStr,
         end: selectInfo.endStr,
       };
-      setEvents([...events, newEvent]);
+      setEvents((prev) => [...prev, newEvent]);
     }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Meeting Calendar</h2>
-          <Button size="sm" variant="outline">
-            My Availability
-          </Button>
-        </div>
-      </CardHeader>
+    <div className="space-y-6">
+      {/* Calendar */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Meeting Calendar</h2>
+            <Button size="sm" variant="outline">
+              My Availability
+            </Button>
+          </div>
+        </CardHeader>
 
-      <CardBody>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-          }}
-          selectable
-          selectMirror
-          select={handleDateSelect}
-          events={events}
-          height="auto"
-        />
-      </CardBody>
-    </Card>
+        <CardBody>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            }}
+            selectable
+            selectMirror
+            select={handleDateSelect}
+            events={events}
+            height="auto"
+          />
+        </CardBody>
+      </Card>
+
+      {/* Meeting Requests */}
+      <MeetingRequests />
+    </div>
   );
 };
