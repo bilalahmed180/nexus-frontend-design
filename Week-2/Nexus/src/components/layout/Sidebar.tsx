@@ -12,6 +12,7 @@ import {
   Settings,
   HelpCircle,
   Calendar,
+  Video,
 } from 'lucide-react';
 
 interface SidebarItemProps {
@@ -39,34 +40,42 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text }) => {
 
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
-
   if (!user) return null;
 
-  /* Entrepreneur sidebar items */
+  /* Entrepreneur */
   const entrepreneurItems = [
     { to: '/dashboard/entrepreneur', icon: <Home size={20} />, text: 'Dashboard' },
     { to: `/profile/entrepreneur/${user.id}`, icon: <Building2 size={20} />, text: 'My Startup' },
     { to: '/investors', icon: <CircleDollarSign size={20} />, text: 'Find Investors' },
-    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' }, // ✅ ADDED
+
+    // ✅ PDF REQUIRED
+    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' },
+    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
+    { to: '/document-chamber', icon: <FileText size={20} />, text: 'Document Chamber' },
+
     { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
     { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
-    { to: '/documents', icon: <FileText size={20} />, text: 'Documents' },
   ];
 
-  /* Investor sidebar items */
+  /* Investor */
   const investorItems = [
     { to: '/dashboard/investor', icon: <Home size={20} />, text: 'Dashboard' },
     { to: `/profile/investor/${user.id}`, icon: <CircleDollarSign size={20} />, text: 'My Portfolio' },
     { to: '/entrepreneurs', icon: <Users size={20} />, text: 'Find Startups' },
-    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' }, // ✅ ADDED
+
+    // ✅ PDF REQUIRED
+    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' },
+    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
+    { to: '/document-chamber', icon: <FileText size={20} />, text: 'Document Chamber' },
+
     { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
     { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
     { to: '/deals', icon: <FileText size={20} />, text: 'Deals' },
   ];
 
-  const sidebarItems = user.role === 'entrepreneur' ? entrepreneurItems : investorItems;
+  const sidebarItems =
+    user.role === 'entrepreneur' ? entrepreneurItems : investorItems;
 
-  /* Bottom common items */
   const commonItems = [
     { to: '/settings', icon: <Settings size={20} />, text: 'Settings' },
     { to: '/help', icon: <HelpCircle size={20} />, text: 'Help & Support' },
@@ -78,12 +87,7 @@ export const Sidebar: React.FC = () => {
         <div className="flex-1 overflow-y-auto py-4">
           <div className="space-y-1 px-3">
             {sidebarItems.map((item, index) => (
-              <SidebarItem
-                key={index}
-                to={item.to}
-                icon={item.icon}
-                text={item.text}
-              />
+              <SidebarItem key={index} {...item} />
             ))}
           </div>
 
@@ -93,12 +97,7 @@ export const Sidebar: React.FC = () => {
             </h3>
             <div className="mt-2 space-y-1">
               {commonItems.map((item, index) => (
-                <SidebarItem
-                  key={index}
-                  to={item.to}
-                  icon={item.icon}
-                  text={item.text}
-                />
+                <SidebarItem key={index} {...item} />
               ))}
             </div>
           </div>
